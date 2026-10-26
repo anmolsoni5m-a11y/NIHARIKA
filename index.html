@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Bestie! ✨</title>
+    
+    <!-- Google Fonts for Elegant Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com" rel="stylesheet">
+
+    <!-- Canvas Confetti Library -->
+    <script src="https://jsdelivr.net"></script>
+
+    <style>
+        :root {
+            --primary-pink: #ff85a2;
+            --secondary-pink: #fbb1bd;
+            --light-pink: #ffe5ec;
+            --dark-pink: #f72585;
+            --text-color: #4a4a4a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffe5ec 0%, #ffc2d1 50%, #fbb1bd 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+            text-align: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px 20px;
+            box-shadow: 0 15px 35px rgba(247, 37, 133, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: var(--dark-pink);
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #7a7a7a;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+        }
+
+        /* Interactive Gift Box Layout */
+        .gift-area {
+            margin: 30px 0;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .gift-box {
+            font-size: 5rem;
+            display: inline-block;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: bounce 2s infinite;
+        }
+
+        .gift-area:hover .gift-box {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .click-hint {
+            font-size: 0.85rem;
+            color: var(--dark-pink);
+            font-weight: 600;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        /* Message Card (Revealed on Click) */
+        .message-card {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            border-radius: 20px;
+            padding: 0 20px;
+        }
+
+        .message-card.open {
+            max-height: 500px;
+            opacity: 1;
+            transform: translateY(0);
+            padding: 25px 20px;
+            margin-top: 20px;
+            border: 1px solid var(--light-pink);
+            box-shadow: inset 0 0 10px rgba(255, 133, 162, 0.05);
+        }
+
+        .message-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .message-card .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: var(--dark-pink);
+            margin-top: 15px;
+        }
+
+        /* Action Button */
+        .celebrate-btn {
+            background: linear-gradient(45deg, var(--dark-pink), var(--primary-pink));
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(247, 37, 133, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            width: 80%;
+        }
+
+        .celebrate-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 8px rgba(247, 37, 133, 0.3);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-7px); }
+        }
+
+        /* Mobile Responsive Adjustments */
+        @media (max-width: 375px) {
+            h1 { font-size: 2.5rem; }
+            .container { padding: 20px 15px; }
+            .celebrate-btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Happy Birthday!</h1>
+        <div class="subtitle">To My Absolute Best Friend 🌸</div>
+
+        <!-- Interactive Gift Wrapper Element -->
+        <div class="gift-area" onclick="revealSurprise()">
+            <div class="gift-box" id="giftEmoji">🎁</div>
+            <p class="click-hint" id="hintText">Tap the gift to open your card!</p>
+        </div>
+
+        <!-- Hidden Message Section -->
+        <div class="message-card" id="messageCard">
+            <p>✨ <strong>To my favorite human,</strong></p>
+            <p>Happy birthday to the sister I got to choose! Thank you for being the one who laughs at my terrible jokes, handles my late-night rants, and stands by me through thick and thin.</p>
+            <p>You have the most beautiful soul, and you deserve a year filled with endless laughter, late-night adventures, and everything you've been working so hard for.</p>
+            <p>Today is all about you! Let's activate the birthday slay. 👑✨</p>
+            <div class="signature">Forever & Always, Your Bestie ❤</div>
+        </div>
+
+        <!-- Confetti Trigger Button -->
+        <button class="celebrate-btn" onclick="fireConfetti()">🎉 Shower with Love!</button>
+    </div>
+
+    <script>
+        // Trigger automated side-burst confetti on launch
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                fireConfetti();
+            }, 500);
+        });
+
+        // Function to handle the interactive gift opening mechanics
+        function revealSurprise() {
+            const card = document.getElementById('messageCard');
+            const gift = document.getElementById('giftEmoji');
+            const hint = document.getElementById('hintText');
+
+            if(!card.classList.contains('open')) {
+                card.classList.add('open');
+                gift.innerHTML = '🥳';
+                gift.style.animation = 'none';
+                hint.innerHTML = 'Yay! Keep celebrating! 🎉';
+                
+                // Fire explosive center confetti explosion upon opening
+                confetti({
+                    particleCount: 150,
+                    spread: 80,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+
+        // Custom high-performance multi-angle canvas confetti triggers
+        function fireConfetti() {
+            var duration = 2 * 1000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                // Left side launch angle
+                confetti({
+                    particleCount: 3,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#ff85a2', '#fbb1bd', '#f72585', '#ffffff']
+                });
+                // Right side launch angle
+                confetti({
+                    particleCount: 3,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#ff85a2', '#fbb1bd', '#f72585', '#ffffff']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+    </script>
+</body>
+</html>
